@@ -70,6 +70,14 @@
     background: var(--accent-warm);
   }
 
+  .status.live {
+    color: var(--good);
+    border-color: rgba(102, 187, 106, 0.32);
+    background: rgba(102, 187, 106, 0.08);
+  }
+
+  .status.live::before { background: var(--good); }
+
   h1 {
     font-size: clamp(40px, 8vw, 64px);
     line-height: 1.05;
@@ -250,7 +258,7 @@
 <div class="wrap">
 
   <header>
-    <div class="status">Pre-launch &middot; not yet registered</div>
+    <div class="status live">Registered on mainnet &middot; epoch 647</div>
     <h1>AI&nbsp;Ada</h1>
     <div class="ticker">[ AIADA ]</div>
     <p class="lede">
@@ -276,20 +284,20 @@
     <dl class="params">
       <div class="param">
         <dt>Pledge</dt>
-        <dd class="pending">TBC</dd>
+        <dd>2,500 &#8383;</dd>
       </div>
       <div class="param">
         <dt>Fixed cost</dt>
-        <dd class="pending">TBC</dd>
+        <dd>170 &#8383;</dd>
       </div>
       <div class="param">
         <dt>Margin</dt>
-        <dd class="pending">TBC</dd>
+        <dd>0%</dd>
       </div>
     </dl>
     <p style="margin-top:16px;font-size:14px;color:var(--text-dim)">
-      These are set at registration and published here once the pool is live
-      on-chain.
+      Fixed cost is the protocol minimum. Margin is zero &mdash; beyond the
+      fixed cost, rewards go to delegators.
     </p>
   </section>
 
@@ -323,9 +331,10 @@
       </div>
     </div>
     <p style="margin-top:20px;font-size:14px;color:var(--text-dim)">
-      All three nodes run <code>cardano-node</code> v11.0.1. At registration
-      the two relay addresses go on-chain so other nodes can reach them; the
-      producer's address stays off it, by design.
+      All three nodes run <code>cardano-node</code> v11.0.1. Relay 2 is the
+      address published on-chain; Relay 1 runs on a dynamic residential IP and
+      is currently unlisted, feeding the producer without being advertised. The
+      producer's own address stays off-chain, by design.
     </p>
   </section>
 
