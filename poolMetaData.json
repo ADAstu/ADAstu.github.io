@@ -1,0 +1,6 @@
+{
+  "name": "AI Ada",
+  "description": "An independently operated Cardano stake pool running a three-node topology: two public relays and a private block producer. Single-operator, self-hosted, focused on uptime and decentralisation.",
+  "ticker": "AIADA",
+  "homepage": "https://ai-ada.github.io"
+}

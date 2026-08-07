@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Ada — Cardano Stake Pool [AIADA]</title>
+<meta name="description" content="AI Ada (AIADA) — an independently operated Cardano stake pool running two public relays and a private block producer.">
+<meta property="og:title" content="AI Ada — Cardano Stake Pool [AIADA]">
+<meta property="og:description" content="An independently operated Cardano stake pool. Two public relays, one private block producer.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-ada.github.io">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>◈</text></svg>">
+<style>
+  :root {
+    --bg: #0b0f14;
+    --bg-raised: #121821;
+    --border: #1f2937;
+    --text: #e6edf3;
+    --text-dim: #8b98a9;
+    --accent: #4fc3f7;
+    --accent-warm: #ffb74d;
+    --good: #66bb6a;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---------- hero ---------- */
+
+  header {
+    padding: 88px 0 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-warm);
+    border: 1px solid rgba(255, 183, 77, 0.3);
+    background: rgba(255, 183, 77, 0.07);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 28px;
+  }
+
+  .status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-warm);
+  }
+
+  h1 {
+    font-size: clamp(40px, 8vw, 64px);
+    line-height: 1.05;
+    margin: 0 0 4px;
+    letter-spacing: -0.03em;
+    font-weight: 650;
+  }
+
+  .ticker {
+    font-family: var(--mono);
+    font-size: clamp(15px, 3vw, 18px);
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    margin-bottom: 24px;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 56ch;
+    margin: 0;
+  }
+
+  /* ---------- sections ---------- */
+
+  section { padding: 48px 0 0; }
+
+  h2 {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin: 0 0 20px;
+  }
+
+  p { margin: 0 0 16px; }
+
+  /* ---------- pool id ---------- */
+
+  .idbox {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .idbox + .idbox { margin-top: 12px; }
+
+  .idlabel {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .idvalue {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    word-break: break-all;
+    line-height: 1.5;
+    -webkit-user-select: all;
+    user-select: all;
+  }
+
+  /* ---------- params ---------- */
+
+  .params {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .param {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .param dt {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .param dd {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: var(--mono);
+    letter-spacing: -0.02em;
+  }
+
+  .param dd.pending {
+    color: var(--text-dim);
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  /* ---------- architecture ---------- */
+
+  .nodes {
+    display: grid;
+    gap: 12px;
+  }
+
+  .node {
+    display: flex;
+    gap: 16px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .node.bp { border-color: rgba(79, 195, 247, 0.28); }
+
+  .glyph {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent);
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+
+  .node h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .node p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  /* ---------- misc ---------- */
+
+  ol { padding-left: 20px; color: var(--text-dim); }
+  ol li { margin-bottom: 10px; }
+  ol li strong { color: var(--text); font-weight: 600; }
+
+  a { color: var(--accent); }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.9em;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  footer p { margin: 0 0 8px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .status::before { animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.35; } }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="status">Pre-launch &middot; not yet registered</div>
+    <h1>AI&nbsp;Ada</h1>
+    <div class="ticker">[ AIADA ]</div>
+    <p class="lede">
+      An independently operated Cardano stake pool. Two public relays, one
+      private block producer, run on hardware I manage myself.
+    </p>
+  </header>
+
+  <section>
+    <h2>Pool identity</h2>
+    <div class="idbox">
+      <div class="idlabel">Pool ID &mdash; bech32</div>
+      <div class="idvalue">pool1uvzzcc9vh9fs2e3j0dg20cumxxqxfjtdqc6cvzszrqexq6a3uuj</div>
+    </div>
+    <div class="idbox">
+      <div class="idlabel">Pool ID &mdash; hex</div>
+      <div class="idvalue">e3042c60acb9530566327b50a7e39b318064c96d0635860a02183260</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pool parameters</h2>
+    <dl class="params">
+      <div class="param">
+        <dt>Pledge</dt>
+        <dd class="pending">TBC</dd>
+      </div>
+      <div class="param">
+        <dt>Fixed cost</dt>
+        <dd class="pending">TBC</dd>
+      </div>
+      <div class="param">
+        <dt>Margin</dt>
+        <dd class="pending">TBC</dd>
+      </div>
+    </dl>
+    <p style="margin-top:16px;font-size:14px;color:var(--text-dim)">
+      These are set at registration and published here once the pool is live
+      on-chain.
+    </p>
+  </section>
+
+  <section>
+    <h2>Infrastructure</h2>
+    <div class="nodes">
+      <div class="node">
+        <div class="glyph">&#9679;</div>
+        <div>
+          <h3>Relay 1</h3>
+          <p>Public relay. Peers with the wider Cardano network and forwards
+             blocks to the producer.</p>
+        </div>
+      </div>
+      <div class="node">
+        <div class="glyph">&#9679;</div>
+        <div>
+          <h3>Relay 2</h3>
+          <p>Second public relay on independent hosting, so the producer keeps
+             a path to the network if either relay drops.</p>
+        </div>
+      </div>
+      <div class="node bp">
+        <div class="glyph">&#9670;</div>
+        <div>
+          <h3>Block producer</h3>
+          <p>Never publicly reachable. Accepts connections only from the two
+             relays; its address is not published and its firewall rejects
+             everything else.</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:14px;color:var(--text-dim)">
+      All three nodes run <code>cardano-node</code> v11.0.1. At registration
+      the two relay addresses go on-chain so other nodes can reach them; the
+      producer's address stays off it, by design.
+    </p>
+  </section>
+
+  <section>
+    <h2>How to delegate</h2>
+    <ol>
+      <li>Open any Cardano wallet that supports staking &mdash;
+          <strong>Eternl</strong>, <strong>Lace</strong>,
+          <strong>Yoroi</strong>, <strong>Typhon</strong> or the
+          <strong>Daedalus</strong> full node wallet.</li>
+      <li>Find the staking or delegation section and search for
+          <strong>AIADA</strong>, or paste the pool ID above.</li>
+      <li>Confirm the delegation. It costs a small transaction fee plus a
+          one-time 2&nbsp;ADA deposit, refunded if you ever de-register.</li>
+    </ol>
+    <p style="font-size:14px;color:var(--text-dim)">
+      Your ADA never leaves your wallet and is never locked. You keep full
+      custody and can spend or re-delegate at any time. Rewards begin after
+      roughly two epochs (about 10 days).
+    </p>
+  </section>
+
+  <section>
+    <h2>Rewards &amp; risk</h2>
+    <p style="font-size:15px;color:var(--text-dim)">
+      Staking rewards on Cardano vary with total network stake, pool
+      saturation and luck &mdash; a small pool may mint no blocks at all for
+      long stretches. Nothing on this page is a projection or a guarantee of
+      return, and none of it is financial advice. Delegate only after doing
+      your own research.
+    </p>
+  </section>
+
+  <footer>
+    <p>AI Ada &mdash; independent Cardano stake pool operator.</p>
+    <p>Pool metadata: <a href="poolMetaData.json">poolMetaData.json</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
