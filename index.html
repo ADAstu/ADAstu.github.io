@@ -258,7 +258,7 @@
 <div class="wrap">
 
   <header>
-    <div class="status live">Registered on mainnet &middot; epoch 647</div>
+    <div class="status live">Live on mainnet &middot; both relays on-chain</div>
     <h1>AI&nbsp;Ada</h1>
     <div class="ticker">[ AIADA ]</div>
     <p class="lede">
@@ -331,10 +331,30 @@
       </div>
     </div>
     <p style="margin-top:20px;font-size:14px;color:var(--text-dim)">
-      All three nodes run <code>cardano-node</code> v11.0.1. Relay 2 is the
-      address published on-chain; Relay 1 runs on a dynamic residential IP and
-      is currently unlisted, feeding the producer without being advertised. The
-      producer's own address stays off-chain, by design.
+      All three nodes run <code>cardano-node</code> v11.0.1. Both relays are
+      published on-chain &mdash; Relay 2 by a static IP, Relay 1 by a
+      dynamic-DNS hostname that updates automatically if its address changes,
+      so the network path stays current without manual intervention. The
+      producer's own address is never published and stays off-chain, by
+      design.
+    </p>
+  </section>
+
+  <section>
+    <h2>Monitoring</h2>
+    <p style="font-size:15px;color:var(--text-dim)">
+      All three nodes are checked automatically, around the clock, every day
+      of the year. Hourly checks watch each node's sync status, chain tip
+      height, and peer connectivity &mdash; including, specifically, whether
+      the block producer still has a live connection to both relays, since
+      that link is what silently breaks if a relay's address ever changes. A
+      separate weekly check tracks the operational certificate's remaining
+      validity and escalates as its renewal deadline approaches, so that
+      isn't left to chance either.
+    </p>
+    <p style="font-size:14px;color:var(--text-dim)">
+      Alerts fire only when something actually needs attention &mdash; the
+      goal is a pool that stays healthy, not a stream of routine pings.
     </p>
   </section>
 

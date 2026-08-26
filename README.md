@@ -72,8 +72,8 @@ Authenticated with the dedicated key `~/.ssh/github_aiada` (separate from the
 block producer's `~/.ssh/cardano_bp`; `~/.ssh/config` pins it per-host with
 `IdentitiesOnly yes`).
 
-## Not done yet
+## Status
 
-On-chain registration. That needs the registration certificate, pledge/cost/
-margin decided, a 500 ADA deposit, and a signature from the cold key in
-`../pool-cold/`. Real money — review and submit it yourself.
+Registered on mainnet 2026-08-07 (epoch 647). Both relays are registered
+on-chain as of the 2026-08-16 re-registration, live as of the epoch
+649→650 boundary (2026-08-18).
