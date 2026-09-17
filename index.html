@@ -238,32 +238,6 @@
     padding: 1px 5px;
   }
 
-  /* ---------- epoch history ---------- */
-
-  table.history {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--mono);
-    font-size: 14px;
-  }
-
-  table.history th,
-  table.history td {
-    text-align: left;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  table.history th {
-    color: var(--text-dim);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-
-  table.history td.num { text-align: right; }
-
   footer {
     margin-top: 64px;
     padding-top: 28px;
@@ -428,12 +402,12 @@
       Recorded automatically from the block producer's own logs once each
       epoch ends.
     </p>
-    <table class="history" id="epoch-history-table" hidden>
-      <thead>
-        <tr><th>Epoch</th><th>Blocks minted</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <dl class="params">
+      <div class="param" id="epoch-history-stat" hidden>
+        <dt>Total blocks minted</dt>
+        <dd id="epoch-history-total">&mdash;</dd>
+      </div>
+    </dl>
     <p id="epoch-history-status" style="font-size:14px;color:var(--text-dim)">Loading&hellip;</p>
   </section>
 
@@ -446,27 +420,21 @@
 <script>
 (function () {
   var status = document.getElementById('epoch-history-status');
-  var table = document.getElementById('epoch-history-table');
-  var tbody = table.querySelector('tbody');
+  var stat = document.getElementById('epoch-history-stat');
+  var total = document.getElementById('epoch-history-total');
 
   fetch('epoch-history.json', { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(function (data) {
-      var epochs = (data.epochs || []).slice().sort(function (a, b) { return b.epoch - a.epoch; });
-      if (!epochs.length) { status.textContent = 'No epochs recorded yet.'; return; }
+      var minted = (data.epochs || []).filter(function (e) { return e.minted != null; });
+      if (!minted.length) { status.textContent = 'No epochs recorded yet.'; return; }
 
-      epochs.forEach(function (e) {
-        var tr = document.createElement('tr');
-        tr.innerHTML =
-          '<td>' + e.epoch + '</td>' +
-          '<td class="num">' + (e.minted != null ? e.minted : '—') + '</td>';
-        tbody.appendChild(tr);
-      });
+      var sum = minted.reduce(function (acc, e) { return acc + e.minted; }, 0);
+      var last = minted.reduce(function (a, b) { return b.epoch > a.epoch ? b : a; });
 
-      table.hidden = false;
-      status.textContent = data.generatedAt
-        ? 'Last updated ' + new Date(data.generatedAt).toISOString().slice(0, 16).replace('T', ' ') + ' UTC.'
-        : '';
+      total.textContent = sum;
+      stat.hidden = false;
+      status.textContent = 'Through epoch ' + last.epoch + '.';
     })
     .catch(function () {
       status.textContent = 'Could not load epoch history right now.';
