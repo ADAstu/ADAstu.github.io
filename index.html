@@ -264,32 +264,6 @@
 
   table.history td.num { text-align: right; }
 
-  .badge {
-    display: inline-block;
-    padding: 2px 9px;
-    border-radius: 100px;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-  }
-
-  .badge.confirmed {
-    color: var(--good);
-    background: rgba(102, 187, 106, 0.1);
-    border: 1px solid rgba(102, 187, 106, 0.3);
-  }
-
-  .badge.progress {
-    color: var(--accent-warm);
-    background: rgba(255, 183, 77, 0.08);
-    border: 1px solid rgba(255, 183, 77, 0.3);
-  }
-
-  .badge.unknown {
-    color: var(--text-dim);
-    background: rgba(139, 152, 169, 0.08);
-    border: 1px solid var(--border);
-  }
-
   footer {
     margin-top: 64px;
     padding-top: 28px;
@@ -452,13 +426,11 @@
     <h2>Block &amp; epoch history</h2>
     <p style="font-size:14px;color:var(--text-dim)">
       Recorded automatically from the block producer's own logs once each
-      epoch ends. "Expected" is the mean of a probabilistic process &mdash;
-      actual blocks per epoch land above or below it by chance, especially
-      at this pool's current stake level.
+      epoch ends.
     </p>
     <table class="history" id="epoch-history-table" hidden>
       <thead>
-        <tr><th>Epoch</th><th>Expected</th><th>Minted</th><th>Status</th></tr>
+        <tr><th>Epoch</th><th>Blocks minted</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -484,16 +456,10 @@
       if (!epochs.length) { status.textContent = 'No epochs recorded yet.'; return; }
 
       epochs.forEach(function (e) {
-        var badge = { cls: 'unknown', label: 'No data' };
-        if (e.status === 'confirmed') badge = { cls: 'confirmed', label: 'Confirmed' };
-        else if (e.status === 'scheduled' || e.status === 'in-progress') badge = { cls: 'progress', label: 'In progress' };
-
         var tr = document.createElement('tr');
         tr.innerHTML =
           '<td>' + e.epoch + '</td>' +
-          '<td class="num">' + (e.expected != null ? Number(e.expected).toFixed(2) : '—') + '</td>' +
-          '<td class="num">' + (e.minted != null ? e.minted : '—') + '</td>' +
-          '<td><span class="badge ' + badge.cls + '">' + badge.label + '</span></td>';
+          '<td class="num">' + (e.minted != null ? e.minted : '—') + '</td>';
         tbody.appendChild(tr);
       });
 
