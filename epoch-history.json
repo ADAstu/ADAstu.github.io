@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T04:34:01.252056+00:00",
+  "generatedAt": "2026-10-27T04:32:33.283085+00:00",
   "epochs": [
     {
       "epoch": 651,
@@ -88,6 +88,13 @@
     {
       "epoch": 663,
       "expected": 1.7181,
+      "assigned": 2,
+      "minted": 2,
+      "status": "confirmed"
+    },
+    {
+      "epoch": 664,
+      "expected": 1.7084,
       "assigned": 2,
       "minted": null,
       "status": "scheduled"
